@@ -1,0 +1,11 @@
+.idea
+generated
+morpheus-terraformer*
+cmd/tmp
+.DS_Store
+.terraform
+.vscode
+terraform.tfstate
+terraform.tfstate.backup
+init.tf
+vendor/

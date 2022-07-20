@@ -1,0 +1,50 @@
+package resources
+
+import (
+	"encoding/json"
+	"log"
+
+	"github.com/gomorpheus/morpheus-go-sdk"
+)
+
+func GenerateContacts(client *morpheus.Client) (output []string) {
+	response, err := client.ListContacts(&morpheus.Request{
+		QueryParams: map[string]string{"max": "300"},
+	})
+	if err != nil {
+		log.Println(err)
+	}
+	bolB, _ := json.Marshal(response.JsonData)
+	log.Println(string(bolB))
+	result := response.Result.(*morpheus.ListContactsResult)
+	contacts := result.Contacts
+
+	for _, v := range *contacts {
+		/*// create new empty hcl file object
+		hclFile := hclwrite.NewEmptyFile()
+
+			// initialize the body of the new file object
+			rootBody := hclFile.Body()
+			title := strings.ToLower(v.Name)
+			provider := rootBody.AppendNewBlock("resource",
+				[]string{"morpheus_environment", title})
+			providerBody := provider.Body()
+
+			providerBody.SetAttributeValue("active", cty.BoolVal(v.Active))
+			providerBody.SetAttributeValue("code", cty.StringVal(v.Code))
+			providerBody.SetAttributeValue("description", cty.StringVal(v.Description))
+			providerBody.SetAttributeValue("name", cty.StringVal(v.Name))
+
+			hcloutput := log.Sprintf("%s", hclFile.Bytes())
+			output = append(output, hcloutput)
+		}
+		v := strings.Join(output, " ")
+		err = os.WriteFile("terraformdata/environments.tf", []byte(v), 0644)
+		if err != nil {
+			log.Println(err)
+		}
+		return output*/
+		log.Println(v.Name)
+	}
+	return []string{""}
+}
