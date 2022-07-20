@@ -11,6 +11,7 @@ import (
 	"github.com/zclconf/go-cty/cty"
 )
 
+// InstallProvider downloads and installs the Morpheus Terraform provider to the local system
 func InstallProvider() {
 	dirname, err := os.UserHomeDir()
 	if err != nil {

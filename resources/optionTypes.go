@@ -11,6 +11,7 @@ import (
 	"github.com/zclconf/go-cty/cty"
 )
 
+// GenerateOptionTypes generates terraform code for Morpheus option types
 func GenerateOptionTypes(client *morpheus.Client) {
 	log.Println("generating option types...")
 	response, err := client.ListOptionTypes(&morpheus.Request{
@@ -240,8 +241,8 @@ func generateSelecListOptionTypes(resource morpheus.OptionType) (output string) 
 	providerBody.SetAttributeValue("required", cty.BoolVal(resource.Required))
 
 	if resource.OptionListId != nil {
-		optionId := resource.OptionListId
-		oloutput := fmt.Sprintf("%v", optionId["id"])
+		optionID := resource.OptionListId
+		oloutput := fmt.Sprintf("%v", optionID["id"])
 		numout, err := cty.ParseNumberVal(oloutput)
 		if err != nil {
 			log.Println(err)
@@ -276,8 +277,8 @@ func generateTypeAheadOptionTypes(resource morpheus.OptionType) (output string) 
 	providerBody.SetAttributeValue("default_value", cty.StringVal(resource.DefaultValue))
 	providerBody.SetAttributeValue("help_block", cty.StringVal(resource.HelpBlock))
 	providerBody.SetAttributeValue("required", cty.BoolVal(resource.Required))
-	optionId := resource.OptionListId
-	oloutput := fmt.Sprintf("%v", optionId["id"])
+	optionID := resource.OptionListId
+	oloutput := fmt.Sprintf("%v", optionID["id"])
 	numout, err := cty.ParseNumberVal(oloutput)
 	if err != nil {
 		log.Println(err)

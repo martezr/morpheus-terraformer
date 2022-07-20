@@ -19,7 +19,9 @@ A CLI tool that generates `tf` files based on existing Morpheus configuration
 
 
 ```
-export MORPHEUS_API_URL
+export MORPHEUS_API_URL=""
+export MORPHEUS_API_USERNAME=""
+export MORPHEUS_API_PASSWORD=""
 ```
 
 ```
@@ -30,4 +32,8 @@ morpheus-terraformer generate -r groups,environments
 
 |Name|
 |----|
+|environments|
 |groups|
+|option lists|
+|option types|
+|tenants|

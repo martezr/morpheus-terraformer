@@ -11,6 +11,7 @@ import (
 	"github.com/zclconf/go-cty/cty"
 )
 
+// GenerateOptionLists generates terraform code for Morpheus option lists
 func GenerateOptionLists(client *morpheus.Client) {
 	log.Println("generating option lists...")
 	response, err := client.ListOptionLists(&morpheus.Request{

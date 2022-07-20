@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 
 	"github.com/martezr/morpheus-terraformer/cmd"
@@ -9,7 +8,7 @@ import (
 
 func main() {
 	if err := cmd.Execute(); err != nil {
-		log.Println(err)
+		//log.Println(err)
 		os.Exit(1)
 	}
 }

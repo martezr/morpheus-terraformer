@@ -19,8 +19,8 @@ var excludeResources []string
 func init() {
 	generateCmd.Flags().StringSliceVarP(&genResources, "resources", "r", []string{}, "groups,environments or * for all services")
 	generateCmd.MarkFlagRequired("resources")
-	generateCmd.Flags().StringSliceVarP(&filterResources, "filter", "f", []string{}, "log memory usage to this file")
-	generateCmd.Flags().StringSliceVarP(&excludeResources, "exclude", "e", []string{}, "log memory usage to this file")
+	generateCmd.Flags().StringSliceVarP(&filterResources, "filter", "f", []string{}, "filter the resources returned")
+	generateCmd.Flags().StringSliceVarP(&excludeResources, "exclude", "e", []string{}, "exclude specific resources when used with '*' to return a subset of all the resources")
 }
 
 var generateCmd = &cobra.Command{
@@ -35,15 +35,15 @@ var generateCmd = &cobra.Command{
 			}
 		}
 
-		morpheusUrl := os.Getenv("MORPHEUS_API_URL")
+		morpheusURL := os.Getenv("MORPHEUS_API_URL")
 		morpheusToken := os.Getenv("MORPHEUS_API_TOKEN")
 
 		morpheusUsername := os.Getenv("MORPHEUS_API_USERNAME")
 		morpheusPassword := os.Getenv("MORPHEUS_API_PASSWORD")
 		var client *morpheus.Client
 
-		if morpheusUrl != "" {
-			client = morpheus.NewClient(morpheusUrl)
+		if morpheusURL != "" {
+			client = morpheus.NewClient(morpheusURL)
 		} else {
 			fmt.Println("The MORPHEUS_API_URL is not specified")
 			os.Exit(1)

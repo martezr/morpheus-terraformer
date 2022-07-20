@@ -10,6 +10,7 @@ import (
 	"github.com/zclconf/go-cty/cty"
 )
 
+// GenerateTenants generates terraform code for Morpheus tenants
 func GenerateTenants(client *morpheus.Client) (output []string) {
 	log.Println("generating tenants...")
 	response, err := client.ListTenants(&morpheus.Request{

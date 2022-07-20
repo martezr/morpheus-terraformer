@@ -12,6 +12,7 @@ import (
 	"github.com/zclconf/go-cty/cty"
 )
 
+// GenerateTasks generates terraform code for Morpheus tasks
 func GenerateTasks(client *morpheus.Client) {
 	log.Println("generating tasks...")
 	response, err := client.ListTasks(&morpheus.Request{
@@ -194,6 +195,7 @@ func generateShellScriptTask(resource Task) (output string) {
 	return hcloutput
 }
 
+// Task is a Morpheus task object
 type Task struct {
 	ID        int    `json:"id"`
 	Accountid int    `json:"accountId"`
@@ -234,6 +236,7 @@ type Task struct {
 	Allowcustomconfig bool   `json:"allowCustomConfig"`
 }
 
+// TasksPayload is the payload returned for Morpheus task objects
 type TasksPayload struct {
 	Tasks []Task `json:"tasks"`
 	Meta  struct {

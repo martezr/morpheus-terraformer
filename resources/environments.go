@@ -10,6 +10,7 @@ import (
 	"github.com/zclconf/go-cty/cty"
 )
 
+// GenerateEnvironments generates terraform code for Morpheus environments
 func GenerateEnvironments(client *morpheus.Client) (output []string) {
 	log.Println("generating environments...")
 	response, err := client.ListEnvironments(&morpheus.Request{

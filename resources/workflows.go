@@ -12,6 +12,7 @@ import (
 	"github.com/zclconf/go-cty/cty"
 )
 
+// GenerateWorkflows generates terraform code for Morpheus workflows
 func GenerateWorkflows(client *morpheus.Client) {
 	response, err := client.ListTaskSets(&morpheus.Request{
 		QueryParams: map[string]string{"max": "500"},
@@ -83,6 +84,7 @@ func generateOperationalWorkflows(resource Workflow) (output string) {
 	return hcloutput
 }
 
+// Workflow defines a Morpheus workflow object
 type Workflow struct {
 	Accountid         int       `json:"accountId"`
 	Allowcustomconfig bool      `json:"allowCustomConfig"`
@@ -183,6 +185,7 @@ type Workflow struct {
 	Visibility string `json:"visibility"`
 }
 
+// WorkflowsPayload defines a Morpheus workflow objects
 type WorkflowsPayload struct {
 	TaskSets []Workflow `json:"taskSets"`
 	Meta     struct {

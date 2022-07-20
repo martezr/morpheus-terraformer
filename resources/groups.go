@@ -10,6 +10,7 @@ import (
 	"github.com/zclconf/go-cty/cty"
 )
 
+// GenerateGroups generates terraform code for Morpheus groups
 func GenerateGroups(client *morpheus.Client) (output []string) {
 	log.Println("generating groups...")
 	response, err := client.ListGroups(&morpheus.Request{
