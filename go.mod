@@ -3,7 +3,7 @@ module github.com/martezr/morpheus-terraformer
 go 1.17
 
 require (
-	github.com/gomorpheus/morpheus-go-sdk v0.0.0-20210723110846-0e69e356ae26
+	github.com/gomorpheus/morpheus-go-sdk v0.1.3
 	github.com/hashicorp/go-getter/v2 v2.0.0
 	github.com/hashicorp/hcl/v2 v2.11.1
 	github.com/hashicorp/hcl2 v0.0.0-20191002203319-fb75b3253c80
@@ -35,5 +35,3 @@ require (
 	golang.org/x/net v0.0.0-20211111083644-e5c967477495 // indirect
 	golang.org/x/text v0.3.6 // indirect
 )
-
-replace github.com/gomorpheus/morpheus-go-sdk => ../morpheus-go-sdk
