@@ -66,9 +66,11 @@ var generateCmd = &cobra.Command{
 			if !utils.Contains(excludeResources, "environment") {
 				resources.GenerateEnvironments(client)
 			}
+
 			if !utils.Contains(excludeResources, "group") {
 				resources.GenerateGroups(client)
 			}
+
 			if !utils.Contains(excludeResources, "task") {
 				resources.GenerateTasks(client)
 			}
@@ -80,6 +82,7 @@ var generateCmd = &cobra.Command{
 			if !utils.Contains(excludeResources, "optiontype") {
 				resources.GenerateOptionTypes(client)
 			}
+
 			if !utils.Contains(excludeResources, "optionlist") {
 				resources.GenerateOptionLists(client)
 			}

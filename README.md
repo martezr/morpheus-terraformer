@@ -32,6 +32,10 @@ chmod +x morpheus-terraformer-darwin-amd64
 sudo mv morpheus-terraformer-darwin-amd64 /usr/local/bin/morpheus-terraformer
 ```
 
+## Windows
+
+
+
 # Getting Started
 
 ```
@@ -57,3 +61,7 @@ The following resources are supported:
 |option list|Morpheus option lists (REST API, Manual, and Morpheus)|
 |option type|Morpheus option types(select, text, number, password, typeahead)|
 |tenant|Morpheus tenants|
+
+# Contributing
+
+If you have improvements or fixes, we would love to have your contributions. Please read CONTRIBUTING.md for more information on the process we would like contributors to follow.
