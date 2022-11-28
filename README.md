@@ -24,7 +24,9 @@ Morpheus-Terraformer is built with Golang and compiled down to a single binary l
 ## Linux
 
 ```bash
-curl -LO https://github.com/martezr/morpheus-terraformer/releases/download/$(curl -s https://api.github.com/repos/martezr/morpheus-terraformer/releases/latest | grep tag_name | cut -d '"' -f 4)/morpheus-terraformer-linux-amd64
+curl -LO https://github.com/martezr/morpheus-terraformer/releases/download/$(curl -s https://api.github.com/repos/martezr/morpheus-terraformer/releases/latest | grep tag_name | cut -d '"' -f 4)/morpheus-terraformer-linux-amd64.tar.gz
+tar -xzf morpheus-terraformer-linux-amd64.tar.gz
+cd morpheus-terraformer-linux-amd64/
 chmod +x morpheus-terraformer-linux-amd64
 sudo mv morpheus-terraformer-linux-amd64 /usr/local/bin/morpheus-terraformer
 ```
@@ -32,7 +34,9 @@ sudo mv morpheus-terraformer-linux-amd64 /usr/local/bin/morpheus-terraformer
 ## Mac OS X
 
 ```
-curl -LO https://github.com/martezr/morpheus-terraformer/releases/download/$(curl -s https://api.github.com/repos/martezr/morpheus-terraformer/releases/latest | grep tag_name | cut -d '"' -f 4)/morpheus-terraformer-darwin-amd64
+curl -LO https://github.com/martezr/morpheus-terraformer/releases/download/$(curl -s https://api.github.com/repos/martezr/morpheus-terraformer/releases/latest | grep tag_name | cut -d '"' -f 4)/morpheus-terraformer-darwin-amd64.tar.gz
+tar -xzf morpheus-terraformer-darwin-amd64.tar.gz
+cd morpheus-terraformer-darwin-amd64/
 chmod +x morpheus-terraformer-darwin-amd64
 sudo mv morpheus-terraformer-darwin-amd64 /usr/local/bin/morpheus-terraformer
 ```
@@ -64,7 +68,11 @@ export MORPHEUS_API_TOKEN="d3a4c6fa-fb54-44af"
 Generate the Terraform code using the `generate` command following by `-r` and the name of the resources to create or specify `'*'` to generate all supported resources.
 
 ```
-morpheus-terraformer generate -r groups,environments
+morpheus-terraformer generate -r "*"
+```
+
+```
+morpheus-terraformer generate -r group,environment
 ```
 
 # Supported Resources
@@ -73,11 +81,18 @@ The following resources are supported:
 
 |Name|Description|
 |----|-----|
+|contact|Morpheus monitoring contact|
 |environment|Morpheus environments|
 |group|Morpheus groups|
-|option list|Morpheus option lists (REST API, Manual, and Morpheus)|
-|option type|Morpheus option types(select, text, number, password, typeahead)|
+|optionlist|Morpheus option lists (REST API, Manual, and Morpheus)|
+|optiontype|Morpheus option types(select, text, number, password, typeahead)|
+|policy|Morpheus policy|
+|scripttemplate|Morpheus script template|
+|spectemplate|Morpheus spec template|
+|task|Morpheus automation task|
 |tenant|Morpheus tenants|
+|wiki|Morpheus wiki pages|
+|workflow|Morpheus automation workflows|
 
 # Contributing
 

@@ -17,7 +17,7 @@ var filterResources []string
 var excludeResources []string
 
 func init() {
-	generateCmd.Flags().StringSliceVarP(&genResources, "resources", "r", []string{}, "groups,environments or * for all services")
+	generateCmd.Flags().StringSliceVarP(&genResources, "resources", "r", []string{}, "groups,environments or \"*\" for all services")
 	generateCmd.MarkFlagRequired("resources")
 	generateCmd.Flags().StringSliceVarP(&filterResources, "filter", "f", []string{}, "filter the resources returned")
 	generateCmd.Flags().StringSliceVarP(&excludeResources, "exclude", "e", []string{}, "exclude specific resources when used with '*' to return a subset of all the resources")
@@ -50,7 +50,7 @@ var generateCmd = &cobra.Command{
 		}
 
 		if morpheusToken != "" {
-			client.SetAccessToken("", "", 0, "write")
+			client.SetAccessToken(morpheusToken, "", 86400, "write")
 		} else if morpheusUsername != "" && morpheusPassword != "" {
 			client.SetUsernameAndPassword(morpheusUsername, morpheusPassword)
 		} else {
@@ -58,13 +58,17 @@ var generateCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		log.Println(genResources)
-		log.Println(filterResources)
-		log.Println(excludeResources)
-
 		if utils.Contains(genResources, "*") && len(filterResources) >= 0 {
+			if !utils.Contains(excludeResources, "contact") {
+				resources.GenerateContacts(client)
+			}
+
 			if !utils.Contains(excludeResources, "environment") {
 				resources.GenerateEnvironments(client)
+			}
+
+			if !utils.Contains(excludeResources, "filetemplate") {
+				resources.GenerateFileTemplates(client)
 			}
 
 			if !utils.Contains(excludeResources, "group") {
@@ -87,26 +91,52 @@ var generateCmd = &cobra.Command{
 				resources.GenerateOptionLists(client)
 			}
 
-			if !utils.Contains(excludeResources, "optiontype") {
+			if !utils.Contains(excludeResources, "policy") {
+				resources.GeneratePolicies(client)
+			}
+
+			if !utils.Contains(excludeResources, "scripttemplate") {
+				resources.GenerateScriptTemplates(client)
+			}
+
+			if !utils.Contains(excludeResources, "spectemplate") {
+				resources.GenerateSpecTemplates(client)
+			}
+
+			if !utils.Contains(excludeResources, "workflow") {
 				resources.GenerateWorkflows(client)
+			}
+
+			if !utils.Contains(excludeResources, "wiki") {
+				resources.GenerateWikis(client)
 			}
 		} else {
 			for _, resource := range genResources {
 				switch resource {
+				case "contact":
+					resources.GenerateContacts(client)
 				case "group":
 					resources.GenerateGroups(client)
 				case "environment":
 					resources.GenerateEnvironments(client)
-				case "optiontype":
-					resources.GenerateOptionTypes(client)
 				case "optionlist":
 					resources.GenerateOptionLists(client)
+				case "optiontype":
+					resources.GenerateOptionTypes(client)
+				case "policy":
+					resources.GeneratePolicies(client)
+				case "scripttemplate":
+					resources.GenerateScriptTemplates(client)
+				case "spectemplate":
+					resources.GenerateSpecTemplates(client)
 				case "task":
 					resources.GenerateTasks(client)
 				case "tenant":
 					resources.GenerateTenants(client)
 				case "workflow":
 					resources.GenerateWorkflows(client)
+				case "wiki":
+					resources.GenerateWikis(client)
 				default:
 					log.Printf("unable to generate resources for %s as %s is an invalid resource type", resource, resource)
 				}

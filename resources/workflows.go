@@ -9,6 +9,7 @@ import (
 
 	"github.com/gomorpheus/morpheus-go-sdk"
 	"github.com/hashicorp/hcl/v2/hclwrite"
+	"github.com/martezr/morpheus-terraformer/utils"
 	"github.com/zclconf/go-cty/cty"
 )
 
@@ -47,8 +48,7 @@ func generateOperationalWorkflows(resource Workflow) (output string) {
 
 	// initialize the body of the new file object
 	rootBody := hclFile.Body()
-	title := strings.ReplaceAll(resource.Name, " ", "_")
-	title = strings.ToLower(title)
+	title := utils.GenerateResourceName(resource.Name)
 	provider := rootBody.AppendNewBlock("resource",
 		[]string{"morpheus_operational_workflow", title})
 	providerBody := provider.Body()

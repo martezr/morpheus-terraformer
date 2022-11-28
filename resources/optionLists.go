@@ -8,6 +8,7 @@ import (
 	"github.com/gomorpheus/morpheus-go-sdk"
 	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/hashicorp/hcl/v2/hclwrite"
+	"github.com/martezr/morpheus-terraformer/utils"
 	"github.com/zclconf/go-cty/cty"
 )
 
@@ -31,20 +32,22 @@ func GenerateOptionLists(client *morpheus.Client) {
 		case "manual":
 			manualOptionLists = append(manualOptionLists, generateManualOptionLists(v))
 		case "api":
-			//selectOptionTypes = append(selectOptionTypes, generateSelecListOptionTypes(v))
+			//apiOptionLists = append(apiOptionLists, generateApiOptionLists(v))
+		case "ldap":
+			//ldapOptionLists = append(ldapOptionLists, generateLdapOptionLists(v))
 		case "rest":
 			restOptionLists = append(restOptionLists, generateRestOptionLists(v))
 		}
 	}
 
-	// Write Text Option Types
+	// Write Manual Option Lists
 	v := strings.Join(manualOptionLists, "\n")
 	err = os.WriteFile("generated/manualOptionLists.tf", []byte(v), 0644)
 	if err != nil {
 		log.Println(err)
 	}
 
-	// Write Text Option Types
+	// Write Rest Option Lists
 	restData := strings.Join(restOptionLists, "\n")
 	err = os.WriteFile("generated/restOptionLists.tf", []byte(restData), 0644)
 	if err != nil {
@@ -58,8 +61,7 @@ func generateManualOptionLists(resource morpheus.OptionList) (output string) {
 
 	// initialize the body of the new file object
 	rootBody := hclFile.Body()
-	title := strings.ReplaceAll(resource.Name, " ", "_")
-	title = strings.ToLower(title)
+	title := utils.GenerateResourceName(resource.Name)
 	provider := rootBody.AppendNewBlock("resource",
 		[]string{"morpheus_manual_option_list", title})
 	providerBody := provider.Body()
@@ -97,8 +99,7 @@ func generateRestOptionLists(resource morpheus.OptionList) (output string) {
 
 	// initialize the body of the new file object
 	rootBody := hclFile.Body()
-	title := strings.ReplaceAll(resource.Name, " ", "_")
-	title = strings.ToLower(title)
+	title := utils.GenerateResourceName(resource.Name)
 	provider := rootBody.AppendNewBlock("resource",
 		[]string{"morpheus_rest_option_list", title})
 	providerBody := provider.Body()

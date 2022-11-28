@@ -8,6 +8,7 @@ import (
 
 	"github.com/gomorpheus/morpheus-go-sdk"
 	"github.com/hashicorp/hcl2/hclwrite"
+	"github.com/martezr/morpheus-terraformer/utils"
 	"github.com/zclconf/go-cty/cty"
 )
 
@@ -34,7 +35,7 @@ func GenerateOptionTypes(client *morpheus.Client) {
 	for _, v := range *optionTypes {
 		switch v.Type {
 		case "text":
-			textOptionTypes = append(textOptionTypes, generateTextTypes(v))
+			textOptionTypes = append(textOptionTypes, generateTextOptionTypes(v))
 		case "select":
 			selectOptionTypes = append(selectOptionTypes, generateSelecListOptionTypes(v))
 		case "hidden":
@@ -107,14 +108,13 @@ func GenerateOptionTypes(client *morpheus.Client) {
 	}
 }
 
-func generateTextTypes(resource morpheus.OptionType) (output string) {
+func generateTextOptionTypes(resource morpheus.OptionType) (output string) {
 	// create new empty hcl file object
 	hclFile := hclwrite.NewEmptyFile()
 
 	// initialize the body of the new file object
 	rootBody := hclFile.Body()
-	title := strings.ReplaceAll(resource.Name, " ", "_")
-	title = strings.ToLower(title)
+	title := utils.GenerateResourceName(resource.Name)
 	provider := rootBody.AppendNewBlock("resource",
 		[]string{"morpheus_text_option_type", title})
 	providerBody := provider.Body()
@@ -141,8 +141,7 @@ func generateHiddenOptionTypes(resource morpheus.OptionType) (output string) {
 
 	// initialize the body of the new file object
 	rootBody := hclFile.Body()
-	title := strings.ReplaceAll(resource.Name, " ", "_")
-	title = strings.ToLower(title)
+	title := utils.GenerateResourceName(resource.Name)
 	provider := rootBody.AppendNewBlock("resource",
 		[]string{"morpheus_hidden_option_type", title})
 	providerBody := provider.Body()
@@ -165,8 +164,7 @@ func generateNumberOptionTypes(resource morpheus.OptionType) (output string) {
 
 	// initialize the body of the new file object
 	rootBody := hclFile.Body()
-	title := strings.ReplaceAll(resource.Name, " ", "_")
-	title = strings.ToLower(title)
+	title := utils.GenerateResourceName(resource.Name)
 	provider := rootBody.AppendNewBlock("resource",
 		[]string{"morpheus_number_option_type", title})
 	providerBody := provider.Body()
@@ -193,8 +191,7 @@ func generatePasswordOptionTypes(resource morpheus.OptionType) (output string) {
 
 	// initialize the body of the new file object
 	rootBody := hclFile.Body()
-	title := strings.ReplaceAll(resource.Name, " ", "_")
-	title = strings.ToLower(title)
+	title := utils.GenerateResourceName(resource.Name)
 	provider := rootBody.AppendNewBlock("resource",
 		[]string{"morpheus_password_option_type", title})
 	providerBody := provider.Body()
@@ -221,9 +218,7 @@ func generateSelecListOptionTypes(resource morpheus.OptionType) (output string) 
 
 	// initialize the body of the new file object
 	rootBody := hclFile.Body()
-	title := strings.ReplaceAll(resource.Name, " ", "_")
-	title = strings.ReplaceAll(title, "*", "")
-	title = strings.ToLower(title)
+	title := utils.GenerateResourceName(resource.Name)
 	provider := rootBody.AppendNewBlock("resource",
 		[]string{"morpheus_select_list_option_type", title})
 	providerBody := provider.Body()
@@ -260,8 +255,7 @@ func generateTypeAheadOptionTypes(resource morpheus.OptionType) (output string) 
 
 	// initialize the body of the new file object
 	rootBody := hclFile.Body()
-	title := strings.ReplaceAll(resource.Name, " ", "_")
-	title = strings.ToLower(title)
+	title := utils.GenerateResourceName(resource.Name)
 	provider := rootBody.AppendNewBlock("resource",
 		[]string{"morpheus_typeahead_option_type", title})
 	providerBody := provider.Body()
@@ -295,8 +289,7 @@ func generateCheckboxOptionTypes(resource morpheus.OptionType) (output string) {
 
 	// initialize the body of the new file object
 	rootBody := hclFile.Body()
-	title := strings.ReplaceAll(resource.Name, " ", "_")
-	title = strings.ToLower(title)
+	title := utils.GenerateResourceName(resource.Name)
 	provider := rootBody.AppendNewBlock("resource",
 		[]string{"morpheus_checkbox_option_type", title})
 	providerBody := provider.Body()
