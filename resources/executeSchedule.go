@@ -36,14 +36,13 @@ func GenerateExecuteSchedules(client *morpheus.Client) (output []string) {
 		providerBody.SetAttributeValue("name", cty.StringVal(v.Name))
 		providerBody.SetAttributeValue("description", cty.StringVal(v.Desription))
 		providerBody.SetAttributeValue("enabled", cty.BoolVal(v.Enabled))
-
-		providerBody.SetAttributeValue("location", cty.StringVal(v.Location))
-
+		providerBody.SetAttributeValue("time_zone", cty.StringVal(v.TimeZone))
+		providerBody.SetAttributeValue("schedule", cty.StringVal(v.Cron))
 		hcloutput := string(hclFile.Bytes())
 		output = append(output, hcloutput)
 	}
 	v := strings.Join(output, "\n")
-	err = os.WriteFile("generated/groups.tf", []byte(v), 0644)
+	err = os.WriteFile("generated/executeSchedules.tf", []byte(v), 0644)
 	if err != nil {
 		log.Println(err)
 	}

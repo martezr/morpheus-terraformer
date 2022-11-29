@@ -160,7 +160,6 @@ func generatePythonTask(resource morpheus.Task) (output string) {
 	if resource.ResultType != "" {
 		providerBody.SetAttributeValue("result_type", cty.StringVal(resource.ResultType))
 	}
-	log.Println(resource.File.SourceType)
 	switch resource.File.SourceType {
 	case "local":
 		var out hclwrite.Tokens

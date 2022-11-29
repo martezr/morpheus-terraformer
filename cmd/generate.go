@@ -115,10 +115,14 @@ var generateCmd = &cobra.Command{
 				switch resource {
 				case "contact":
 					resources.GenerateContacts(client)
-				case "group":
-					resources.GenerateGroups(client)
 				case "environment":
 					resources.GenerateEnvironments(client)
+				case "executeschedule":
+					resources.GenerateExecuteSchedules(client)
+				case "filetemplate":
+					resources.GenerateFileTemplates(client)
+				case "group":
+					resources.GenerateGroups(client)
 				case "optionlist":
 					resources.GenerateOptionLists(client)
 				case "optiontype":

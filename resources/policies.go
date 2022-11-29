@@ -208,7 +208,11 @@ func generateBackupCreationPolicy(resource morpheus.Policy) (output string) {
 	providerBody.SetAttributeValue("description", cty.StringVal(resource.Description))
 	providerBody.SetAttributeValue("enabled", cty.BoolVal(resource.Enabled))
 	providerBody.SetAttributeValue("enforcement_type", cty.StringVal(resource.Config.CreateBackupType))
-	providerBody.SetAttributeValue("create_backup", cty.StringVal(resource.Config.CreateBackup))
+	if resource.Config.CreateBackup == "on" {
+		providerBody.SetAttributeValue("create_backup", cty.BoolVal(true))
+	} else {
+		providerBody.SetAttributeValue("create_backup", cty.BoolVal(false))
+	}
 
 	switch resource.RefType {
 	case "ComputeSite":
@@ -219,7 +223,7 @@ func generateBackupCreationPolicy(resource morpheus.Policy) (output string) {
 		providerBody.SetAttributeValue("cloud_id", cty.NumberIntVal(resource.Zone.ID))
 	case "User":
 		providerBody.SetAttributeValue("scope", cty.StringVal("user"))
-		providerBody.SetAttributeValue("cloud_id", cty.NumberIntVal(resource.User.ID))
+		providerBody.SetAttributeValue("user_id", cty.NumberIntVal(resource.User.ID))
 	case "Role":
 		providerBody.SetAttributeValue("scope", cty.StringVal("role"))
 		providerBody.SetAttributeValue("role_id", cty.NumberIntVal(resource.Role.ID))
