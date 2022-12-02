@@ -3,16 +3,16 @@ module github.com/martezr/morpheus-terraformer
 go 1.17
 
 require (
-	//	github.com/gomorpheus/morpheus-go-sdk v0.2.3
+	github.com/gomorpheus/morpheus-go-sdk v0.2.4
 	github.com/hashicorp/hcl/v2 v2.11.1
 	github.com/hashicorp/hcl2 v0.0.0-20191002203319-fb75b3253c80
 	github.com/spf13/cobra v1.2.1
 	github.com/zclconf/go-cty v1.10.0
 )
 
-replace github.com/gomorpheus/morpheus-go-sdk => ../morpheus-go-sdk
+//replace github.com/gomorpheus/morpheus-go-sdk => ../morpheus-go-sdk
 
-require github.com/gomorpheus/morpheus-go-sdk v0.0.0-00010101000000-000000000000
+//require github.com/gomorpheus/morpheus-go-sdk v0.0.0-00010101000000-000000000000
 
 require (
 	github.com/agext/levenshtein v1.2.1 // indirect

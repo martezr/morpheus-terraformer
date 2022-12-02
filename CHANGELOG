@@ -1,9 +1,18 @@
-## Unreleased
+## 0.2.0 (December 2, 2022)
 
 NOTES:
 
-* The `morpheus-sdk` dependcy has been upgraded to version 0.2.1.
+* Updates to the installation and usage documentation.
+* The `morpheus-sdk` dependcy has been upgraded to version 0.2.4.
+* Fixed token based authentication.
 
 FEATURES:
 
-* Add support
+* Added support for contacts.
+* Added support for execute schedules.
+* Added support for file templates.
+* Added support for policies.
+* Added support for script templates.
+* Added support for spec templates.
+* Added support for wikis.
+* Added support for writing local scripts and file to separate file that are referenced via Terraform file references.
