@@ -15,7 +15,7 @@ import (
 func GenerateContacts(client *morpheus.Client) (output []string) {
 	log.Println("generating contacts...")
 	response, err := client.ListContacts(&morpheus.Request{
-		QueryParams: map[string]string{"max": "500"},
+		QueryParams: map[string]string{"max": "1000"},
 	})
 	if err != nil {
 		log.Println(err)

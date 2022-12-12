@@ -15,7 +15,7 @@ import (
 func GenerateEnvironments(client *morpheus.Client) (output []string) {
 	log.Println("generating environments...")
 	response, err := client.ListEnvironments(&morpheus.Request{
-		QueryParams: map[string]string{"max": "500"},
+		QueryParams: map[string]string{"max": "1000"},
 	})
 	if err != nil {
 		log.Println(err)

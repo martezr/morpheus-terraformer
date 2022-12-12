@@ -15,7 +15,7 @@ import (
 func GenerateGroups(client *morpheus.Client) (output []string) {
 	log.Println("generating groups...")
 	response, err := client.ListGroups(&morpheus.Request{
-		QueryParams: map[string]string{"max": "500"},
+		QueryParams: map[string]string{"max": "1000"},
 	})
 	if err != nil {
 		log.Println(err)

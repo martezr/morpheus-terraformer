@@ -14,7 +14,7 @@ import (
 func GenerateExecuteSchedules(client *morpheus.Client) (output []string) {
 	log.Println("generating execute schedules...")
 	response, err := client.ListExecuteSchedules(&morpheus.Request{
-		QueryParams: map[string]string{"max": "500"},
+		QueryParams: map[string]string{"max": "1000"},
 	})
 	if err != nil {
 		log.Println(err)

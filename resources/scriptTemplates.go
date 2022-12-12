@@ -19,7 +19,7 @@ func GenerateScriptTemplates(client *morpheus.Client) (output []string) {
 	log.Println("generating script templates...")
 	var generatedScriptTemplates int64
 	response, err := client.ListScriptTemplates(&morpheus.Request{
-		QueryParams: map[string]string{"max": "500"},
+		QueryParams: map[string]string{"max": "1000"},
 	})
 	if err != nil {
 		log.Println(err)

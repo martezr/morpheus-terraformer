@@ -16,7 +16,7 @@ import (
 func GenerateWikis(client *morpheus.Client) (output []string) {
 	log.Println("generating wikis...")
 	response, err := client.ListWikis(&morpheus.Request{
-		QueryParams: map[string]string{"max": "500"},
+		QueryParams: map[string]string{"max": "1000"},
 	})
 	if err != nil {
 		log.Println(err)

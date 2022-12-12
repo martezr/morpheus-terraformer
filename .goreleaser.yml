@@ -23,7 +23,7 @@ builds:
     - arm64
   binary: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
 archives:
-  format: binary
+- format: binary
 checksum:
   name_template: '{{ .ProjectName }}_{{ .Version }}_SHA256SUMS'
   algorithm: sha256

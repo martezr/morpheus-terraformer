@@ -16,7 +16,7 @@ import (
 func GenerateOptionTypes(client *morpheus.Client) {
 	log.Println("generating option types...")
 	response, err := client.ListOptionTypes(&morpheus.Request{
-		QueryParams: map[string]string{"max": "500"},
+		QueryParams: map[string]string{"max": "1000"},
 	})
 	if err != nil {
 		log.Println(err)

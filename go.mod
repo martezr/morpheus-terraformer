@@ -1,9 +1,9 @@
 module github.com/martezr/morpheus-terraformer
 
-go 1.17
+go 1.19
 
 require (
-	github.com/gomorpheus/morpheus-go-sdk v0.2.4
+	github.com/gomorpheus/morpheus-go-sdk v0.2.5
 	github.com/hashicorp/hcl/v2 v2.11.1
 	github.com/hashicorp/hcl2 v0.0.0-20191002203319-fb75b3253c80
 	github.com/spf13/cobra v1.2.1

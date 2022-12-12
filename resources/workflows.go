@@ -1,7 +1,6 @@
 package resources
 
 import (
-	"encoding/json"
 	"log"
 	"os"
 	"strings"
@@ -15,34 +14,48 @@ import (
 
 // GenerateWorkflows generates terraform code for Morpheus workflows
 func GenerateWorkflows(client *morpheus.Client) {
+	log.Println("generating workflows...")
 	response, err := client.ListTaskSets(&morpheus.Request{
-		QueryParams: map[string]string{"max": "500"},
+		QueryParams: map[string]string{"max": "1000"},
 	})
 	if err != nil {
 		log.Println(err)
 	}
-	var workflowResponse WorkflowsPayload
-	json.Unmarshal(response.Body, &workflowResponse)
-	var operationalWorkflows []string
 
-	for _, v := range workflowResponse.TaskSets {
+	result := response.Result.(*morpheus.ListTaskSetsResult)
+	taskSets := result.TaskSets
+
+	var operationalWorkflows []string
+	var provisioningWorkflows []string
+
+	for _, v := range *taskSets {
 		switch v.Type {
 		case "operation":
 			operationalWorkflows = append(operationalWorkflows, generateOperationalWorkflows(v))
-			generateOperationalWorkflows(v)
 		case "provision":
-			//generateProvisioningWorkflows(v)
+			provisioningWorkflows = append(provisioningWorkflows, generateProvisioningWorkflows(v))
 		}
 	}
 
-	operationalWorkflowData := strings.Join(operationalWorkflows, "\n")
-	err = os.WriteFile("generated/operationalWorkflows.tf", []byte(operationalWorkflowData), 0644)
-	if err != nil {
-		log.Println(err)
+	if len(operationalWorkflows) > 0 {
+		operationalWorkflowData := strings.Join(operationalWorkflows, "\n")
+		err = os.WriteFile("generated/operationalWorkflows.tf", []byte(operationalWorkflowData), 0644)
+		if err != nil {
+			log.Println(err)
+		}
 	}
+
+	if len(provisioningWorkflows) > 0 {
+		provisioningWorkflowData := strings.Join(provisioningWorkflows, "\n")
+		err = os.WriteFile("generated/provisioningWorkflows.tf", []byte(provisioningWorkflowData), 0644)
+		if err != nil {
+			log.Println(err)
+		}
+	}
+
 }
 
-func generateOperationalWorkflows(resource Workflow) (output string) {
+func generateOperationalWorkflows(resource morpheus.TaskSet) (output string) {
 	// create new empty hcl file object
 	hclFile := hclwrite.NewEmptyFile()
 
@@ -61,17 +74,19 @@ func generateOperationalWorkflows(resource Workflow) (output string) {
 	} else {
 		providerBody.SetAttributeValue("platform", cty.StringVal(resource.Platform))
 	}
-	providerBody.SetAttributeValue("allow_custom_config", cty.BoolVal(resource.Allowcustomconfig))
+	providerBody.SetAttributeValue("allow_custom_config", cty.BoolVal(resource.AllowCustomConfig))
 	var tasks []cty.Value
-	for _, v := range resource.Tasksettasks {
+	for _, v := range resource.TaskSetTasks {
 		taskRef := strings.ReplaceAll(v.Task.Name, " ", "_")
 		taskRef = strings.ToLower(taskRef)
-		taskType := v.Task.Tasktype.Code
-		var resourceOut string
+		taskType := v.Task.TaskType.Code
+		//var resourceOut string
 		switch taskType {
-		case "jythonTask":
-			resourceOut = "morpheus_python_script_task" + "." + taskRef + ".id"
-			tasks = append(tasks, cty.StringVal(resourceOut))
+		//case "jythonTask":
+		//	resourceOut = "morpheus_python_script_task" + "." + taskRef + ".id"
+		//	tasks = append(tasks, cty.StringVal(resourceOut))
+		default:
+			tasks = append(tasks, cty.NumberIntVal(v.Task.ID))
 		}
 	}
 	if len(tasks) == 0 {
@@ -79,6 +94,37 @@ func generateOperationalWorkflows(resource Workflow) (output string) {
 		providerBody.SetAttributeValue("task_ids", cty.ListValEmpty(taskid))
 	} else {
 		providerBody.SetAttributeValue("task_ids", cty.ListVal(tasks))
+	}
+	hcloutput := string(hclFile.Bytes())
+	return hcloutput
+}
+
+func generateProvisioningWorkflows(resource morpheus.TaskSet) (output string) {
+	// create new empty hcl file object
+	hclFile := hclwrite.NewEmptyFile()
+
+	// initialize the body of the new file object
+	rootBody := hclFile.Body()
+	title := utils.GenerateResourceName(resource.Name)
+	provider := rootBody.AppendNewBlock("resource",
+		[]string{"morpheus_provisioning_workflow", title})
+	providerBody := provider.Body()
+
+	providerBody.SetAttributeValue("name", cty.StringVal(resource.Name))
+	providerBody.SetAttributeValue("description", cty.StringVal(resource.Description))
+	providerBody.SetAttributeValue("visibility", cty.StringVal(resource.Visibility))
+	if resource.Platform == "" {
+		providerBody.SetAttributeValue("platform", cty.StringVal("all"))
+	} else {
+		providerBody.SetAttributeValue("platform", cty.StringVal(resource.Platform))
+	}
+	providerBody.SetAttributeValue("allow_custom_config", cty.BoolVal(resource.AllowCustomConfig))
+	for _, v := range resource.TaskSetTasks {
+		providerBody.AppendNewline()
+		taskBlock := providerBody.AppendNewBlock("task", nil)
+		taskBody := taskBlock.Body()
+		taskBody.SetAttributeValue("task_id", cty.NumberIntVal(v.ID))
+		taskBody.SetAttributeValue("task_phase", cty.StringVal(v.TaskPhase))
 	}
 	hcloutput := string(hclFile.Bytes())
 	return hcloutput

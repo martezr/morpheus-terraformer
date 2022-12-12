@@ -19,7 +19,7 @@ func GenerateFileTemplates(client *morpheus.Client) (output []string) {
 	log.Println("generating file templates...")
 	var generatedFileTemplates int64
 	response, err := client.ListFileTemplates(&morpheus.Request{
-		QueryParams: map[string]string{"max": "500"},
+		QueryParams: map[string]string{"max": "1000"},
 	})
 	if err != nil {
 		log.Println(err)

@@ -75,14 +75,6 @@ var generateCmd = &cobra.Command{
 				resources.GenerateGroups(client)
 			}
 
-			if !utils.Contains(excludeResources, "task") {
-				resources.GenerateTasks(client)
-			}
-
-			if !utils.Contains(excludeResources, "tenant") {
-				resources.GenerateTenants(client)
-			}
-
 			if !utils.Contains(excludeResources, "optiontype") {
 				resources.GenerateOptionTypes(client)
 			}
@@ -103,13 +95,22 @@ var generateCmd = &cobra.Command{
 				resources.GenerateSpecTemplates(client)
 			}
 
-			if !utils.Contains(excludeResources, "workflow") {
-				resources.GenerateWorkflows(client)
+			if !utils.Contains(excludeResources, "task") {
+				resources.GenerateTasks(client)
+			}
+
+			if !utils.Contains(excludeResources, "tenant") {
+				resources.GenerateTenants(client)
 			}
 
 			if !utils.Contains(excludeResources, "wiki") {
 				resources.GenerateWikis(client)
 			}
+
+			if !utils.Contains(excludeResources, "workflow") {
+				resources.GenerateWorkflows(client)
+			}
+
 		} else {
 			for _, resource := range genResources {
 				switch resource {
